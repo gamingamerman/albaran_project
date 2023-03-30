@@ -59,8 +59,6 @@ const settingsScreen = StyleSheet.create({
     justifyContent: 'center',
   },
   formContainer: {
-    // borderWidth: 2,
-    // borderColor: 'red',
     justifyContent: 'space-evenly',
     height: '40%',
     marginBottom: '50%',
@@ -122,8 +120,6 @@ const formScreen = StyleSheet.create({
     justifyContent: 'center',
   },
   formContainer: {
-    // borderWidth: 2,
-    // borderColor: 'red',
     justifyContent: 'space-evenly',
     height: '40%',
     marginBottom: '50%',
@@ -183,7 +179,6 @@ const albaranScreenDetail = StyleSheet.create({
   },
   titleCard: {
     flex: 2,
-    // backgroundColor: 'blue',
     justifyContent: 'center',
   },
   albaranCode: {
@@ -222,7 +217,6 @@ const albaranScreenDetail = StyleSheet.create({
     width: '100%',
     margin: 10,
     marginLeft: '15%'
-    // flexDirection: ''
   },
   addIcon: {
     height: '70%',
