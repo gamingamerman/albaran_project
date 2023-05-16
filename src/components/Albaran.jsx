@@ -1,4 +1,5 @@
 import React from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
     Text,
     View,
@@ -14,6 +15,18 @@ export const AlbaranComponent = (props) => {
         albaranes: []
     }
 
+    const sentCheck = (value) => {
+        if (value == true) {
+            return (<View>
+                <Icon 
+                name='check'
+                size={30}
+                style={{alignSelf: 'center'}}
+                />
+            </View>)
+        }
+    }
+
     if (props.data.length > 0) {
         state.albaranes = []
         props.data.forEach(albaran => {
@@ -26,6 +39,14 @@ export const AlbaranComponent = (props) => {
                         <Text style={albaranStyle.albaranInnerText}>13/03/2023</Text>
                         <Text style={albaranStyle.albaranInnerText}>{albaran.code}</Text>
                     </View>
+                    {sentCheck(albaran.sent)}
+                    {/* <View>
+                        <Icon 
+                        name='check'
+                        size={30}
+                        style={{alignSelf: 'center'}}
+                        />
+                    </View> */}
                 </TouchableOpacity>
             ])
         });

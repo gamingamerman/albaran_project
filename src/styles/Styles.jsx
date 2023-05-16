@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 
+// Styles for the Main Screen
 const mainScreen = StyleSheet.create({
   container: {
     flex: 1,
@@ -44,6 +45,7 @@ const mainScreen = StyleSheet.create({
   }
 });
 
+// Styles for the Settings screen
 const settingsScreen = StyleSheet.create({
   container: {
     flex: 1,
@@ -105,6 +107,7 @@ const settingsScreen = StyleSheet.create({
   },
 })
 
+// Styles for the Form Screen
 const formScreen = StyleSheet.create({
   container: {
     flex: 1,
@@ -166,6 +169,7 @@ const formScreen = StyleSheet.create({
   },
 })
 
+// Styles for the Albaran Screen
 const albaranScreenDetail = StyleSheet.create({
   container: {
     flex: 1,
@@ -217,6 +221,12 @@ const albaranScreenDetail = StyleSheet.create({
     width: '100%',
     margin: 10,
     marginLeft: '15%'
+  },
+  qrIcon: {
+    height: '70%',
+    width: '100%',
+    marginTop: 10,
+    marginLeft: '30%'
   },
   addIcon: {
     height: '70%',
@@ -275,6 +285,7 @@ const albaranScreenDetail = StyleSheet.create({
   },
 });
 
+// Styles for the Albaran
 const albaranStyle = StyleSheet.create({
   albaranTextContainer: {
     flexDirection: 'row',
@@ -304,6 +315,7 @@ const albaranStyle = StyleSheet.create({
   }
 })
 
+// Styles for the product inside the albaran
 const productStyle = StyleSheet.create({
   tableStyle: {
     marginTop: '5%'
@@ -318,6 +330,7 @@ const productStyle = StyleSheet.create({
   }
 })
 
+// Styles for the scanner  Screen
 const scannerScreen = StyleSheet.create({
   modalView: {
     margin: 20,
@@ -360,6 +373,7 @@ const scannerScreen = StyleSheet.create({
   }
 })
 
+// Styles for the screen to edit the albaran
 const editAlbaranScreen = StyleSheet.create({
   container: {
     flex: 1,

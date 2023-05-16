@@ -16,14 +16,36 @@ export const MainScreen = (props) => {
 
   const [albaranes, updateAlbaranes] = useState([])
 
+  // Retrieve albaran data from internal storage
   const getData = async () => {
     try {
       const res = JSON.parse(await AsyncStorage.getItem('albaran'))
       updateAlbaranes(res)
+      console.log(albaranes)
     } catch (e) {
       console.log(e)
     }
   }
+  
+  // Function that clears the data of albaran in the internal storage
+  const clearAlbaranes = async () => {
+    try {
+      const res = JSON.parse(await AsyncStorage.clear('albaran'))
+      updateAlbaranes([])
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  // Resets daily albaranes at 0 AM
+  setInterval(
+    function() {
+      const d = new Date();
+      if (d.getHours() == 0) {
+        clearAlbaranes()
+      }
+    }, 5000
+  )
 
   useFocusEffect(
     useCallback(() => {
@@ -68,7 +90,7 @@ export const MainScreen = (props) => {
             size={60}
             backgroundColor='transparent'
             underlayColor='none'
-            onPress={() => { }}
+            onPress={() => props.navigation.navigate('HistoryScreen')}
           />
         </View>
         <View>

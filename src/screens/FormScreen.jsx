@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useRoute, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
     Modal,
@@ -13,26 +14,32 @@ import {
 import { formScreen } from '../styles/Styles';
 
 export const FormScreen = (props) => {
+    const route = useRoute();
+
     const [text, setText] = useState('');
+    const [envio, setEnvio] = useState('');
     const [formModalVisible, setFormModalVisible] = useState(false);
 
-    const storeData = async (value) => {
+    // Creates and / or adds a new Albaran and stores it in the internal database
+    const storeData = async (value, value2) => {
         try {
             if (JSON.parse(await AsyncStorage.getItem('albaran') !== null)) {
                 let newAlbaran = JSON.parse(await AsyncStorage.getItem('albaran'));
                 newAlbaran.push({
                     id_albaran : newAlbaran.length,
-                    code : 'XXXXXXB12',
+                    code : value2 ,
                     registry : value,
-                    products : []
+                    products : [],
+                    sent: false
                 })
                 await AsyncStorage.setItem('albaran', JSON.stringify(newAlbaran))
             } else {
                 firstAlbaran = [{
                     id_albaran : 0,
-                    code : 'XXXXXXB12',
+                    code : value2,
                     registry : value,
-                    products : []
+                    products : [],
+                    sent: false
                 }]
                 await AsyncStorage.setItem('albaran', JSON.stringify(firstAlbaran))
             }
@@ -41,15 +48,54 @@ export const FormScreen = (props) => {
           console.log(e)
         }
       }
+    
+    // This is for the permanent history of albaranes. Same function as the one to create/add albaranes (storeData())
+    const storeDataHistory = async(value, value2) => {
+        try {
+            if (JSON.parse(await AsyncStorage.getItem('albaranHistory') !== null)) {
+                let newAlbaran = JSON.parse(await AsyncStorage.getItem('albaranHistory'));
+                newAlbaran.push({
+                    id_albaran : newAlbaran.length,
+                    code : value2,
+                    registry : value,
+                    products : [],
+                    sent: false
+                })
+                await AsyncStorage.setItem('albaranHistory', JSON.stringify(newAlbaran))
+            } else {
+                firstAlbaran = [{
+                    id_albaran : 0,
+                    code : value2,
+                    registry : value,
+                    products : [],
+                    sent: false
+                }]
+                await AsyncStorage.setItem('albaranHistory', JSON.stringify(firstAlbaran))
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
+    // Checks if the form fields to create albaranes is empty
     const formCheck = async() => {
-        if (!text.trim()) {
+        if (!text.trim() || !envio.trim()) {
             setFormModalVisible(true)
         } else {
-            await storeData(text)
+            await storeData(text, envio)
+            await storeDataHistory(text, envio)
             props.navigation.navigate('MainScreen')
         }
     }
+    useFocusEffect(
+        useCallback(() => {
+            console.log(envio)
+            if (route.params != undefined) {
+                setEnvio(route.params.code)
+                console.log(envio)
+            }
+        },[])
+    )
     
     return (
         <View style={formScreen.container}>
@@ -91,22 +137,41 @@ export const FormScreen = (props) => {
             </View>
             <View style={formScreen.bodyContainer}>
                 <View style={formScreen.formContainer}>
-                    <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Matrícula</Text>
+                    <Text style={{ fontSize: 30, fontWeight: 'bold', bottom: 10 }}>Matrícula</Text>
                     <TextInput
                         style={{ height: 40, backgroundColor: '#191919', borderRadius: 5 }}
                         placeholder="introduzca la matrícula"
                         onChangeText={newText => setText(newText)}
                         defaultValue={text}
                     />
-                    <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ fontSize: 30, fontWeight: 'bold', marginTop: '10%', bottom: 10 }}>Nº de envío</Text>
+                    <TextInput
+                        style={{ height: 40, backgroundColor: '#191919', borderRadius: 5, width: '75%' }}
+                        placeholder="introduzca el número de envío"
+                        onChangeText={newText => setEnvio(newText)}
+                        defaultValue={envio}
+                    />
+                    <View style={{ flexDirection: 'row', alignSelf: 'flex-end', bottom: '10%'}}>
+                    <Icon.Button
+                            name='camera'
+                            size={40}
+                            color='grey'
+                            backgroundColor='transparent'
+                            underlayColor='none'
+                            // style={{  }}
+                            onPress={() => props.navigation.navigate('ScannerCodeScreen')}
+                        />
+                    </View>
+                    <View style={{ flexDirection: 'row', top:'10%'}}>
                         <View style={{ flex: 1 }} />
+                        
                         <Icon.Button
                             name='check'
                             size={40}
                             color='green'
                             backgroundColor='transparent'
                             underlayColor='none'
-                            style={{ alignSelf: 'flex-end', }}
+                            style={{ alignSelf: 'flex-end'}}
                             onPress={() => { formCheck() }}
                         />
                     </View>
@@ -119,7 +184,7 @@ export const FormScreen = (props) => {
                         size={60}
                         backgroundColor='transparent'
                         underlayColor='none'
-                        // onPress={() => { pressing() }}
+                        onPress={() => props.navigation.navigate('HistoryScreen')}
                     />
                 </View>
                 <View>

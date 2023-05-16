@@ -15,6 +15,7 @@ export const SettingsScreen = (props) => {
 
     const [text, setText] = useState('');
 
+    // Retrieves an existing email in the internal storage, if any. Or uses a default email
     const getEmail = async () => {
         try {
             let email = await AsyncStorage.getItem('mail')
@@ -24,6 +25,7 @@ export const SettingsScreen = (props) => {
         }
     }
 
+    // Changes the existing email to another one
     const changeEmail = async (value) => {
         try {
             await AsyncStorage.setItem('mail', value)

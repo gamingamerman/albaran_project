@@ -21,6 +21,7 @@ export const EditAlbaranScreen = (props) => {
     const [codigo, setCodigo] = useState('');
     const [modal, setModal] = useState(false);
 
+    // Filters the data to only edit the albaran that needs to be edited
     const syncData = async () => {
         try {
             let albaran = JSON.parse(await AsyncStorage.getItem('albaran'));
@@ -32,6 +33,7 @@ export const EditAlbaranScreen = (props) => {
         }
     }
 
+    // Edits the albarans data (Matricula and Código cliente)
     const modifyData = async () => {
         try {
             let albaran = JSON.parse(await AsyncStorage.getItem('albaran'));
@@ -47,6 +49,7 @@ export const EditAlbaranScreen = (props) => {
         }
     }
 
+    // Deletes the albaran
     const deleteEntry = async () => {
         try {
             let albaran = JSON.parse(await AsyncStorage.getItem('albaran'));
